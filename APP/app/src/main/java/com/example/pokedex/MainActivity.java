@@ -45,36 +45,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-
-
             recyclerView.setHasFixedSize(true);
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
                 mLayoutManager = new GridLayoutManager(this,1);
             }else{
                 mLayoutManager = new GridLayoutManager(this,3);
             }
-
             recyclerView.setLayoutManager(mLayoutManager);
-
             sendRequest();
-
-
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        rvPokemon.setLayoutManager(new LinearLayoutManager(this));
-//
-//        // Initialize contacts
-//        // Attach the adapter to the recyclerview to populate items
-//        rvPokemon.setAdapter(mAdapter);
-//        // Create adapter passing in the sample user data
-//
-//        // Set layout manager to position the items
-//        // That's all!
-
-
-
-
-
 
 
     }
@@ -105,14 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void sendRequest(){
-                VolleyLog.DEBUG = true;
+        VolleyLog.DEBUG = true;
 
         StringRequest stringRequest = new StringRequest("https://swapi.co/api/films/",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         final ArrayList<FilmsModel> filmsList = new ArrayList<FilmsModel>();
-
                         JSONObject jsonObj = null;
                         try {
                             jsonObj = new JSONObject(response);
@@ -122,17 +99,12 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TITLE: ", n.getString("title"));
                                 filmsList.add(new FilmsModel(n.getString("title"), n.getString("episode_id"), n.getString("director"), n.getString("producer"), n.getString("release_date"), n.getString("opening_crawl")));
                             }
-
                             Log.d("FINISHED +++++++++++++++++++++++ ", String.valueOf(filmsList.get(0).title));
                             mAdapter = new StarwarsAdapter(filmsList);
                             recyclerView.setAdapter(mAdapter);
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
 
                 },
@@ -148,55 +120,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-//    public ArrayList<FilmsModel> createFilms() {
-//        final ArrayList<FilmsModel> filmsList = new ArrayList<FilmsModel>();
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url ="https://swapi.co/api/films/";
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject jsonObj = new JSONObject(response);
-//                            JSONArray results = jsonObj.getJSONArray("results");
-//                            String names[] = new String[results.length()];
-//                            for (int i = 0; i< results.length();i++){
-//                                final JSONObject n = results.getJSONObject(i);
-//                                filmsList.add(new FilmsModel(n.getString("title"), n.getString("episode_id"), n.getString("director"), n.getString("producer"), n.getString("release_date"), n.getString("opening_crawl")));
-//
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.w(WARNING,error);
-//            }
-//        });
-//        queue.add(stringRequest);
-//        return filmsList;
-//    }
-
-//   private NetworkImageView loadImage(String imageUrl){
-//       NetworkImageView pokeImage = (NetworkImageView)findViewById(R.id.pokemonImage);
-//       Log.w(WARNING, imageUrl);
-//       pokeImage.setImageUrl(imageUrl,mImageLoader);
-//       return imageView;
-//    }
-
-
-    public void getPokeNames(int amountOfPokemonToGet){
-
-// Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://pokeapi.co/api/v2/pokemon?limit=151";
-
-// Request a string response from the provided URL.
-
-    }
 }
